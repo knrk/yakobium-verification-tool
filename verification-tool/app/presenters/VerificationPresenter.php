@@ -2,11 +2,11 @@
 
 namespace App\Presenters;
 
-use Nette;
-// use App\CoreModule\Model\ProductsManager;
+use App\Model\HashManager;
 use App\Presenters\BasePresenter;
 use Nette\Application\UI\Form;
 use Nette\Http\Session;
+use Nette\Security\Passwords;
 
 use Tracy\Debugger;
 Debugger::enable();
@@ -27,7 +27,7 @@ class VerificationPresenter extends BasePresenter
     protected function createComponentHashForm() 
     {
         $form = new Form;
-        $form->addText('hash_power', 'Enter the unique code sent to the owner of the light object')
+        $form->addText('secret_hash', 'Enter the unique code sent to the owner of the light object')
             ->setRequired()
             ->setHtmlAttribute('id', 'secret-hash')
             ->setHtmlAttribute('autofocus', true);
@@ -36,6 +36,7 @@ class VerificationPresenter extends BasePresenter
 
         $verification = $this->getSession('verification');
         $this->template->serial_number = $verification->serial_number;
+        $this->template->success = false;
 
         $renderer = $form->getRenderer();
         $renderer->wrappers['controls']['container'] = 'dl';
@@ -45,9 +46,21 @@ class VerificationPresenter extends BasePresenter
         return $form;
     }
 
-    public function verificationProcess()
+    public function verificationProcess($form)
     {
         // validate entered secret code and show result.
+        $values = $form->getValues();
+        $secret = $values->secret_hash;
+
+        $verification = $this->getSession('verification');
+
+        $hash = new HashManager;
+        if ($secret == $hash->tokenize($hash->encode($verification->owner_email))) {
+            $this->template->success = true;
+        } 
+
+        // @todo 
+
     }
 
     function renderDefault() 

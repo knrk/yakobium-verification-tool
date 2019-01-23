@@ -1,11 +1,9 @@
 parameters:
 
-
 application:
 	errorPresenter: Error
 	mapping:
 		*: App\*Module\Presenters\*Presenter
-
 
 session:
 	expiration: 14 days
@@ -18,3 +16,10 @@ database:
 	dsn: 'mysql:host=127.0.0.1;dbname=yakobium'
 	user: root
 	password: root
+
+mail:
+	smtp: true
+	host: smtp.gmail.com
+	secure: ssl
+	username: 'lukas.konarik@gmail.com'
+	password: 'kokoska007'

@@ -65,6 +65,14 @@ main h3.invalid {
     color: var(--failure-color);
     font-weight: 600;
 }
+main h5,
+main h5 + p {
+    text-align: center;
+    font-size: 12px;
+}
+main h5 {
+    text-transform: uppercase;
+}
 
 section {
     display: flex;
@@ -133,4 +141,8 @@ form input[type='submit'] {
 
 form input[type='submit']:hover {
     background-color: var(--button-hover-bg-color);
+}
+
+.success {
+    color: var(--success-color);
 }

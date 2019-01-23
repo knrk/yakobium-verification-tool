@@ -2,11 +2,14 @@
 
 namespace App\Presenters;
 
-use Nette;
 use App\Presenters\BasePresenter;
 use App\CoreModule\Model\ProductsManager;
+use App\Model\HashManager;
 use Nette\Application\UI\Form;
 use Nette\Http\Session;
+use Nette\Mail\IMailer;
+use Nette\Mail\Message;
+use Nette\Mail\SendException;
 use Tracy\Debugger;
 
 Debugger::enable();
@@ -16,10 +19,15 @@ final class HomepagePresenter extends BasePresenter
 {
     private $productsManager;
 
-    public function __construct(ProductsManager $productsManager)
+    private $hashManager;
+
+    private $mailer;
+
+    public function __construct(ProductsManager $productsManager, IMailer $mailer)
     {
         parent::__construct();
         $this->productsManager = $productsManager;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -63,11 +71,16 @@ final class HomepagePresenter extends BasePresenter
 
         $this->template->serial_number = $verification->serial_number;
         
-        $owner = $this->productsManager->getProduct($verification->serial_number);
-
-        if ($owner && $owner->email) {
-            $this->template->success = true;
-        }  
+        $light = $this->productsManager->getProduct($verification->serial_number);
+        if ($light) {
+            $owner = $this->productsManager->getOwner($this->productsManager->getOwnerId($light->id));
+            $verification->owner_id = $owner->id;
+            $verification->owner_email = $owner->email;
+            
+            if ($owner && $owner->email) {
+                $this->template->success = true;
+            }  
+        }
     }
 
     /** 
@@ -87,14 +100,31 @@ final class HomepagePresenter extends BasePresenter
      */
     public function verifyOwnership() 
     {
-        // get serial
         $verification = $this->getSession('verification');
-        // get owner
-        $owner = $this->productsManager->getProduct($verification->serial_number);
-        // send email
-        // @todo
-        // redirect to verification form
-        $this->redirect('Verification:');
+        $owner = $this->productsManager->getOwner($verification->owner_id);
+
+        try {
+            // send email
+            $template = $this->createTemplate();
+            $template->setFile(__DIR__ . '/templates/Emails/email.latte');
+            $hash = new HashManager;
+            $template->hash = $hash->tokenize($hash->encode($owner->email));
+
+            $message = new Message;
+            $message->setSubject('Yakobium Light Object - Secret Hash')
+                    ->setFrom('robot@yakobium.com')
+                    ->addTo($owner->email)
+                    ->setHtmlBody($template);
+
+            $this->mailer->send($message);
+
+            $this->redirect('Verification:');
+
+        } catch (SendException $e) {
+            
+            dump($e);
+            // @todo - display error properly
+        }
     }
 
     function renderDefault() 

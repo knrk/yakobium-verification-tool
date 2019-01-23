@@ -19,3 +19,5 @@ abstract class DatabaseManager
         $this->database = $database;
     }
 }
+
+?>

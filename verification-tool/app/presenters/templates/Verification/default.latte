@@ -2,11 +2,17 @@
 	<main>
 		<h1 n:block=title>Authenticity Verification</h1>
 		<h2>{$serial_number}</h2>
-		<h3 class="valid">This is valid Serial Number for Yakobium Light Object.</h3>
-		<section>
-			<h4>Want to verify the owner of the Yakobium Light Object?</h4>
-			<p>Once you request the ownership verification by clicking button below. The rightful owner of the light object will receive a unique code. The owner will pass you the code and you can use it to verify the ownership in the next step. This is particularly useful when buying a unique Yakobium product.</p>
-			{control hashForm}
-		</section>	
+
+		{if $success}
+			<h5 class="success">Great!</h5>
+			<p class="success">The person you are in contact with is matching the contact we have in our records for the Yakobium Light Object with Serial Number above.</p>
+		{else}
+			<h3 class="valid">This is valid Serial Number for Yakobium Light Object.</h3>
+			<section>
+				<h4>Want to verify the owner of the Yakobium Light Object?</h4>
+				<p>Once you request the ownership verification by clicking button below. The rightful owner of the light object will receive a unique code. The owner will pass you the code and you can use it to verify the ownership in the next step. This is particularly useful when buying a unique Yakobium product.</p>
+				{control hashForm}
+			</section>
+		{/if}
 	</main>
 {/block}
