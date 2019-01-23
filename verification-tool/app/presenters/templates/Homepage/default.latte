@@ -1,0 +1,25 @@
+{block content}
+	<main>
+		<h1 n:block=title>Authenticity Verification</h1>
+		{if $serial_number}
+			{if $success}
+				<h2>{$serial_number}</h2>
+				<h3 class="valid">This is valid Serial Number for Yakobium Light Object.</h3>
+				<section>
+					<h4>Want to verify the owner of the Yakobium Light Object?</h4>
+					<p>Once you request the ownership verification by clicking button below. The rightful owner of the light object will receive a unique code. The owner will pass you the code and you can use it to verify the ownership in the next step. This is particularly useful when buying a unique Yakobium product.</p>
+					{control requestSecretForm}
+				</section>
+			{else}
+				<h3 class="invalid">This is NOT valid Serial Number for Yakobium Light Object.</h3>
+			{/if}
+		{else}
+			<section>
+				<h4>Enter the Serial Number of Yakobium Light Object</h4>
+				<p>It is located on the actual light object, usually on the bottom. Or, the owner of the light object can find it on Authenticity Certificate received with the purchased light object.</p>
+				
+				{control serialNumberForm}
+			</section>
+		{/if}
+	</main>
+{/block}
