@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use App\Model\HashManager;
+use App\CoreModule\Model\ProductsManager;
 use App\Presenters\BasePresenter;
 use Nette\Application\UI\Form;
 use Nette\Http\Session;
@@ -14,6 +15,14 @@ Debugger::enable();
 
 class VerificationPresenter extends BasePresenter
 {
+    private $productsManager;
+
+    public function __construct(ProductsManager $productsManager)
+    {
+        parent::__construct();
+        $this->productsManager = $productsManager;
+    }
+
     protected function startup()
     {
         parent::startup();
@@ -55,8 +64,11 @@ class VerificationPresenter extends BasePresenter
         $verification = $this->getSession('verification');
 
         $hash = new HashManager;
-        if ($secret == $hash->tokenize($hash->encode($verification->owner_email))) {
+        if ($secret === $hash->tokenize($hash->encode($verification->owner_email))) {
             $this->template->success = true;
+
+            // db update verifications.verify_date
+            $this->productsManager->updateVerifyDate($verification->owner_id);
         } 
 
         // @todo 
