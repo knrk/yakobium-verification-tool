@@ -3,12 +3,18 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
+	<link rel="dns-prefetch" href="//www.google.com">
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="icon" href="img/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" href="img/favicon-192x192.png" sizes="192x192">
 	<link rel="stylesheet" href="{$basePath}/css/styles.css">
 	<script src="{$basePath}/js/scripts.js"></script>
 	<title>{ifset title}{include title|stripHtml}{/ifset}</title>
 </head>
 
 <body>
+	{include '@header.latte'}
 	{include content}
+	{include '@footer.latte'}
 </body>
 </html>

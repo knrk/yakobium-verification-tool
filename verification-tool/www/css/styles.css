@@ -22,6 +22,9 @@
     --section-border-color: var(--athens-gray);
     --section-p-color: var(--silver);
 
+    --footer-bg-color: var(--mine-shaft);
+    --footer-text-color: var(--white);
+
     --success-color: var(--mantis);
     --failure-color: var(--torch-red);
 }
@@ -34,6 +37,21 @@
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
+    display: grid;
+    grid-template-rows: 70px auto 70px;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    max-height: 120px;
+    align-items: center;
+}
+
+header img {
+    width: 32px;
+    height: 32px;
+    margin-left: 25px;
 }
 
 main {
@@ -145,4 +163,19 @@ form input[type='submit']:hover {
 
 .success {
     color: var(--success-color);
+}
+
+footer {
+    background-color: var(--footer-bg-color);
+    font-size: 13px;
+    color: var(--footer-text-color);
+    max-height: 70px;
+    display: flex;
+    align-items: center;
+}
+footer p {
+    width: 1200px;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
