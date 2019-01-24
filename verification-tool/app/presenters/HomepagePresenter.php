@@ -41,7 +41,7 @@ final class HomepagePresenter extends BasePresenter
             ->setHtmlAttribute('id', 'serial-number')
             ->setHtmlAttribute('autofocus', true)
             ->setHtmlAttribute('placeholder', '000000000-0-0000')
-            ->addRule(Form::PATTERN, 'message', '.*[0-9]\-');
+            ->addRule(Form::PATTERN, 'message', '(.*[0-9]{6,9})\-[0-9]{1}\-([0-9]{4})');
 
         $form->addSubmit('verify_light', 'Verify The Light Object');
         $form->onValidate[] = [$this, 'verifySerialNumber'];
