@@ -1,7 +1,6 @@
 parameters:
 
 application:
-	debugger: false
 	errorPresenter: Error
 	mapping:
 		*: App\*Module\Presenters\*Presenter
@@ -13,11 +12,9 @@ services:
 	router: App\RouterFactory::createRouter
 
 database:
-	dsn: 'mysql:host=wm76.wedos.net;dbname=d85689_yakobi'
-	user: 'w85689_yakobi'
-	password: '5Cc3DTex'
-	options:
-		lazy: true
+	dsn: 'mysql:host=127.0.0.1;dbname=yakobium'
+	user: root
+	password: root
 
 mail:
 	smtp: true

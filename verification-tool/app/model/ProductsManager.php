@@ -2,6 +2,7 @@
 namespace App\CoreModule\Model;
 
 use App\Model\DatabaseManager;
+use Nette\Database\Context;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
@@ -17,6 +18,11 @@ class ProductsManager extends DatabaseManager
             COL_SERIAL_NUMBER = 'serial_number',
             ID = 'id';
 
+    public function __construct(Context $database)
+    {
+        parent::__construct($database);
+    }
+    
     public function getProduct($serial)
     {
         return $this->database->table(self::TABLE_PRODUCTS)
