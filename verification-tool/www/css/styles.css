@@ -93,6 +93,16 @@ main h5 {
     text-transform: uppercase;
 }
 
+main ins {
+    display: flex;
+    margin: 15px 0;
+    line-height: 18px;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 25px 0;
+    line-height: 16px;
+}
+
 section {
     display: flex;
     flex-direction: column;
@@ -111,6 +121,9 @@ section h4 {
 section p {
     font-size: 11px;
     color: var(--section-p-color);
+}
+section p:last-of-type {
+    margin-bottom: 0;
 }
 
 form dl {
@@ -147,7 +160,9 @@ form input[type='text']::placeholder {
     color: var(--input-placeholder-color);
 }
 
+a.button,
 form input[type='submit'] {
+    display: inline-flex;
     border-radius: 2px;
     background-color: var(--button-bg-color);
     font-size: 10px;
@@ -155,16 +170,14 @@ form input[type='submit'] {
     border: 0;
     padding: 10px 15px;
     text-transform: uppercase;
+    text-decoration: none;
     margin-top: 10px;
     cursor: pointer;
 }
 
+a.button:hover,
 form input[type='submit']:hover {
     background-color: var(--button-hover-bg-color);
-}
-
-.success {
-    color: var(--success-color);
 }
 
 footer {
@@ -181,4 +194,11 @@ footer p {
     margin: 0;
     margin-left: auto;
     margin-right: auto;
+}
+
+.success {
+    color: var(--success-color);
+}
+.error {
+    color: var(--failure-color);
 }

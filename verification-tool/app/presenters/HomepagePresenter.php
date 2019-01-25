@@ -10,6 +10,7 @@ use Nette\Http\Session;
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;
 use Nette\Mail\SendException;
+use Nette\Utils\DateTime;
 use Tracy\Debugger;
 
 Debugger::enable();
@@ -18,8 +19,9 @@ Debugger::enable();
 final class HomepagePresenter extends BasePresenter
 {
     private $productsManager;
-
     private $hashManager;
+    private $requests_limit = 3;
+    private $requests_expire = '+1 minute';
 
     private $mailer;
 
@@ -69,6 +71,20 @@ final class HomepagePresenter extends BasePresenter
         unset($verification->serial_number);
         $verification->serial_number = $values->serial_number;
 
+        if ($verification->trials_timestamp) {
+            $last_request_timestamp = DateTime::from($verification->trials_timestamp);
+            $last_request_timestamp->modify($this->requests_expire);
+
+            $current_request_timestamp = new DateTime;
+
+            if ($last_request_timestamp->getTimestamp() < $current_request_timestamp->getTimestamp()) {
+                unset($verification->trials);
+                $verification->trials = 0;
+                unset($verification->trials_timestamp);
+                unset($verification->trials_limit_reached);
+            }
+        }
+
         $this->template->serial_number = $verification->serial_number;
         
         $light = $this->productsManager->getProduct($verification->serial_number);
@@ -79,6 +95,9 @@ final class HomepagePresenter extends BasePresenter
             
             if ($owner && $owner->email) {
                 $this->template->success = true;
+                if ($verification->trials === $this->requests_limit) {
+                    $this->template->trials_limit_reached = true;
+                }
             }  
         }
     }
@@ -88,8 +107,18 @@ final class HomepagePresenter extends BasePresenter
      */
     protected function createComponentRequestSecretForm()
     {
+        $verification = $this->getSession('verification');
         $form = new Form;
-        $form->addSubmit('verify_ownership', 'Verify The Ownership');
+
+        $renderer = $form->getRenderer();
+        $renderer->wrappers['controls']['container'] = null;
+        $renderer->wrappers['pair']['container'] = null;
+        $renderer->wrappers['label']['container'] = null;
+        $renderer->wrappers['control']['container'] = 'div';
+
+        if ($verification->trials < $this->requests_limit) {
+            $form->addSubmit('verify_ownership', 'Verify The Ownership');
+        }
         $form->onSubmit[] = [$this, 'verifyOwnership'];
 
         return $form;
@@ -118,12 +147,17 @@ final class HomepagePresenter extends BasePresenter
 
             $this->mailer->send($message);
 
+            !isset($verification->trials) ? $verification->trials = 0 : $verification->trials++;
+
+            if ($verification->trials === $this->requests_limit) {
+                $verification->trials_timestamp = new DateTime;    
+            }
+
             $this->redirect('Verification:');
 
         } catch (SendException $e) {
-            
-            dump($e);
-            // @todo - display error properly
+            // @todo error was logged, but we need to say user that there was some problem            
+            Debugger::log($e);
         }
     }
 

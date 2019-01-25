@@ -8,10 +8,16 @@
 				<section>
 					<h4>Want to verify the owner of the Yakobium Light Object?</h4>
 					<p>Once you request the ownership verification by clicking button below. The rightful owner of the light object will receive a unique code. The owner will pass you the code and you can use it to verify the ownership in the next step. This is particularly useful when buying a unique Yakobium product.</p>
+										
 					{control requestSecretForm}
 				</section>
+				{ifset $trials_limit_reached}
+					<ins class="error">Unfortunately you have reached verification requests limit per hour. <br>Please try it later.</ins>
+					<a href="/" class="button">Back</a>
+				{/ifset}
 			{else}
 				<h3 class="invalid">This is NOT valid Serial Number for Yakobium Light Object.</h3>
+				<center><a href="/" class="button">Back</a></center>
 			{/if}
 		{else}
 			<section>
