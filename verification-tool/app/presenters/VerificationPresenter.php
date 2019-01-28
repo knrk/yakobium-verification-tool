@@ -36,11 +36,11 @@ class VerificationPresenter extends BasePresenter
     protected function createComponentHashForm() 
     {
         $form = new Form;
-        $form->addText('secret_hash', 'Enter the unique code sent to the owner of the light object')
+        $form->addText('secret_hash', 'Unique Verification Code')
             ->setRequired()
             ->setHtmlAttribute('id', 'secret-hash')
             ->setHtmlAttribute('autofocus', true);
-        $form->addSubmit('verify_owner', 'Verify The Owner');
+        $form->addSubmit('verify_owner', 'Verify');
         $form->onValidate[] = [$this, 'verificationProcess'];
 
         $verification = $this->getSession('verification');
@@ -69,7 +69,9 @@ class VerificationPresenter extends BasePresenter
 
             // db update verifications.verify_date
             $this->productsManager->updateVerifyDate($verification->owner_id);
-        } 
+        } else {
+            $this->template->no_match = true;
+        }
 
         // @todo 
 
