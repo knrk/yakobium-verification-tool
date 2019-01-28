@@ -1,4 +1,9 @@
 parameters:
+	constants:
+		version: '0.3'
+		requests:
+			limit: 3
+			timeout: '+1 hour'
 
 application:
 	errorPresenter: Error
@@ -6,7 +11,12 @@ application:
 		*: App\*Module\Presenters\*Presenter
 
 session:
+	debugger: true
 	expiration: 14 days
+
+tracy:
+	email: 'lukas@konarik.info'
+	netteMailer: true
 
 services:
 	router: App\RouterFactory::createRouter
@@ -15,10 +25,3 @@ database:
 	dsn: 'mysql:host=127.0.0.1;dbname=yakobium'
 	user: root
 	password: root
-
-mail:
-	smtp: true
-	host: smtp.gmail.com
-	secure: ssl
-	username: 'lukas.konarik@gmail.com'
-	password: 'kokoska007'
