@@ -26,7 +26,7 @@ class ProductsManager extends DatabaseManager
     {
         return $this->database->table(self::TABLE_PRODUCTS)
                     ->where(self::COL_SERIAL_NUMBER, $serial)
-                    ->get(1);
+                    ->fetch();
     }
 
     public function getOwnerId($lightId)
