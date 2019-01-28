@@ -42,10 +42,10 @@ final class HomepagePresenter extends BasePresenter
         $form = new Form;
         $form->addText('serial_number')
             ->setRequired()
-            // ->setHtmlAttribute('id', 'serial-number')
-            // ->setHtmlAttribute('autofocus', true)
-            // ->setHtmlAttribute('placeholder', '000000000-0-0000')
-            ->addRule(Form::PATTERN, 'message', '(.*[0-9]{6,9})\-[0-9]{1}\-([0-9]{4})');
+            ->setHtmlAttribute('id', 'serial-number')
+            ->setHtmlAttribute('autofocus', true)
+            ->setHtmlAttribute('placeholder', '000000000-0-0000')
+            ->addRule(Form::PATTERN, 'message', '.*[0-9]{6,9}\-[0-9]{1}\-[0-9]{4}');
 
         $form->addSubmit('verify_light', 'Verify');
         $form->onValidate[] = [$this, 'verifySerialNumber'];

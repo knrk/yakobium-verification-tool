@@ -2,6 +2,7 @@
 
 :root {
     --white: #fff;
+    --black: #000;
     --silver: #bbb;
     --athens-gray: #eaeaea;
     --gallery: #eee;
@@ -10,9 +11,11 @@
     --science-blue: #0077e2;
     --dodger-blue: #1A91FC;
     --indian-khaki: #C5AE91;
-    --coral-reef: #C5AE91;
+    --sandrift: #AC9578;
     --mantis: #97CD6E;
     --contessa: #CD6E6E;
+
+    --text-color: var(--black);
 
     --input-border-color: var(--athens-gray);
     --input-text-color: var(--mine-shaft);
@@ -21,7 +24,7 @@
     --input-description-text-color: var(--dove-gray);
 
     --button-bg-color: var(--indian-khaki);
-    --button-hover-bg-color: var(--coral-reef);
+    --button-hover-bg-color: var(--sandrift);
     --button-text-color: var(--white);
 
     --section-border-color: var(--athens-gray);
@@ -95,6 +98,7 @@ main h2 {
     font-size: 32px;
     line-height: 40px;
     font-weight: 700;
+    margin-top: 40px;
 }
 main h3 {
     font-size: 12px;
@@ -142,6 +146,9 @@ section {
 section.box {
     border: 1px solid var(--section-border-color);
     padding: 30px;
+}
+section.box h4 {
+    color: var(--text-color);
 }
 
 section p {
@@ -226,7 +233,7 @@ form input[type='submit'] {
     letter-spacing: 0.2em;
     color: var(--button-text-color);
     border: 0;
-    padding: 0px 15px;
+    padding: 0px 25px;
     min-width: 135px;
     min-height: 40px;
     line-height: 40px;

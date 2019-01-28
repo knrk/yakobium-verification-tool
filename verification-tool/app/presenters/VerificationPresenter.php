@@ -72,9 +72,6 @@ class VerificationPresenter extends BasePresenter
         } else {
             $this->template->no_match = true;
         }
-
-        // @todo 
-
     }
 
     function renderDefault() 
