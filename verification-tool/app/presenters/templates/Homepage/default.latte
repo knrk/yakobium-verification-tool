@@ -1,14 +1,13 @@
 {block content}
 	<main>
-		<h1 n:block=title>Authenticity Verification</h1>
+		<em>Yakobium</em>
 		{if $serial_number}
+			<h6>Light Object / Sculpture Verification</h6>
+			<h2>{$serial_number}</h2>
 			{if $success}
-				<h2>{$serial_number}</h2>
-				<h3 class="valid">This is valid Serial Number for Yakobium Light Object.</h3>
-				<section>
-					<h4>Want to verify the owner of the Yakobium Light Object?</h4>
-					<p>Once you request the ownership verification by clicking button below. The rightful owner of the light object will receive a unique code. The owner will pass you the code and you can use it to verify the ownership in the next step. This is particularly useful when buying a unique Yakobium product.</p>
-										
+				<h3 class="valid">The entered serial number is valid.</h3>
+				<section class="box">
+					<h4>Are you buying<br> Yakobium Light Object / Sculpture?</h4>
 					{control requestSecretForm}
 				</section>
 				{ifset $trials_limit_reached}
@@ -16,15 +15,23 @@
 					<a href="/" class="button">Back</a>
 				{/ifset}
 			{else}
-				<h3 class="invalid">This is NOT valid Serial Number for Yakobium Light Object.</h3>
+				<h3 class="invalid">The entered serial number is not valid.<br> Try again!</h3>
 				<center><a href="/" class="button">Back</a></center>
 			{/if}
 		{else}
-			<section>
-				<h4>Enter the Serial Number of Yakobium Light Object</h4>
-				<p>It is located on the actual light object, usually on the bottom. Or, the owner of the light object can find it on Authenticity Certificate received with the purchased light object.</p>
-				
-				{control serialNumberForm}
+			<h1>Light Object / Sculpture Verification</h1>
+			<section>				
+				<form n:name="serialNumberForm">
+					<dl>
+						<dt><label n:name=serial_number>Serial Number</label></dt>
+						<dd>
+							<input n:name=serial_number>
+							<span>It is either on the Yakobium Light Object / Sculpture or the Certificate of Authenticity. If you are not the owner of the object, the owner will share the number with you.</span>	
+						</dd>
+						<dt></dt>
+						<dd><input n:name=verify_light class="button"></dd>
+					</dl>
+				</form>				
 			</section>
 		{/if}
 	</main>

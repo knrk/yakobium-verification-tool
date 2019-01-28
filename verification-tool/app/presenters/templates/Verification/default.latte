@@ -1,18 +1,25 @@
 {block content}
 	<main>
-		<h1 n:block=title>Authenticity Verification</h1>
-		<h2>{$serial_number}</h2>
+		<em>Yakobium</em>
+		<h6>Light Object / Sculpture Verification</h6>
+		<h6><b>{$serial_number}</b></h6>
 
 		{if $success}
-			<h5 class="success">Great!</h5>
-			<p class="success">The person you are in contact with is matching the contact we have in our records for the Yakobium Light Object with Serial Number above.</p>
+			<h5 class="success">Great!<br> You are in contact with the owner.</h5>
 		{else}
-			<h3 class="valid">This is valid Serial Number for Yakobium Light Object.</h3>
-			<section>
-				<h4>Want to verify the owner of the Yakobium Light Object?</h4>
-				<p>Once you request the ownership verification by clicking button below. The rightful owner of the light object will receive a unique code. The owner will pass you the code and you can use it to verify the ownership in the next step. This is particularly useful when buying a unique Yakobium product.</p>
-				{control hashForm}
-			</section>
+			{ifset $no_match}
+				<section>
+					<h4 class="error"><b>We are sorry,<br> we could not confirm the owner!</b></h4>
+					<p>Either you entered a wrong verification code or<br> you are not in contact with the owner of the object. Try again!</p>
+					{control hashForm}
+				</section>
+			{else}	
+				<section>
+					<h4>By now, the owner of the object received<br> a unique verification code by email.</h4>
+					<p>Ask the owner to share it with you and enter the code below.</p>
+					{control hashForm}
+				</section>
+			{/ifset}
 		{/if}
 	</main>
 {/block}
