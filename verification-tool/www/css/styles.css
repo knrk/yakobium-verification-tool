@@ -2,6 +2,7 @@
 
 :root {
     --white: #fff;
+    --alabaster: #fbfbfb;
     --black: #000;
     --silver: #bbb;
     --athens-gray: #eaeaea;
@@ -30,6 +31,7 @@
     --section-border-color: var(--athens-gray);
     --section-p-color: var(--silver);
 
+    --header-bg-color: var(--alabaster);
     --footer-bg-color: var(--mine-shaft);
     --footer-text-color: var(--white);
 
@@ -77,7 +79,7 @@ main em {
     font-size: 12px;
     font-weight: 800;
     font-style: normal;
-    letter-spacing: 0.44em;
+    letter-spacing: 7px;
     color: var(--indian-khaki);
     text-transform: uppercase;
     display: flex;
@@ -141,7 +143,7 @@ main ins {
 section {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 40px;
 }
 section.box {
     border: 1px solid var(--section-border-color);
@@ -162,6 +164,7 @@ section p:last-of-type {
 section h4 {
     margin: 0;
     font-size: 18px;
+    line-height: 25px;
     font-weight: 600;
     text-align: center;
     color: var(--indian-khaki);
@@ -170,6 +173,7 @@ section h4 + p {
     font-size: 12px;
     color: var(--text-color);
     text-align: center;
+    margin-top: 10px;
 }
 section h4 + p + form {
     margin-top: 50px;
@@ -230,7 +234,7 @@ form input[type='submit'] {
     background-color: var(--button-bg-color);
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 3.2px;
     color: var(--button-text-color);
     border: 0;
     padding: 0px 25px;
