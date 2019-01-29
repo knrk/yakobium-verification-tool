@@ -1,9 +1,12 @@
 parameters:
-	constants:
-		version: '0.3'
-		requests:
-			limit: 3
-			timeout: '+1 hour'
+    mailing:
+        from: 'robot@yakobium.com'
+        requests:
+            limit: 3
+            timeout: '+1 hour'
+    google:
+        ua: 'UA-117584625-1'
+
 
 application:
 	errorPresenter: Error
