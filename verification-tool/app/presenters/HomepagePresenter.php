@@ -20,8 +20,6 @@ final class HomepagePresenter extends BasePresenter
 {
     private $productsManager;
     private $hashManager;
-    private $requests_limit = 3;
-    private $requests_expire = '+1 hour';
 
     private $mailer;
 
@@ -36,9 +34,7 @@ final class HomepagePresenter extends BasePresenter
      * Creates Serial Number Form (Step 1)
      */
     protected function createComponentSerialNumberForm() 
-    {
-        // dump($this->context->parameters['constants']);
-        
+    {   
         $form = new Form;
         $form->addText('serial_number')
             ->setRequired()
@@ -59,6 +55,8 @@ final class HomepagePresenter extends BasePresenter
         $this->template->serial_number = false;
         $this->template->success = false;
 
+        // dump($this->context->parameters);
+
         return $form;
     }
 
@@ -75,7 +73,7 @@ final class HomepagePresenter extends BasePresenter
 
         if ($verification->trials_timestamp) {
             $last_request_timestamp = DateTime::from($verification->trials_timestamp);
-            $last_request_timestamp->modify($this->requests_expire);
+            $last_request_timestamp->modify($this->context->parameters['mailing']['requests']['timeout']);
 
             $current_request_timestamp = new DateTime;
 
@@ -97,7 +95,7 @@ final class HomepagePresenter extends BasePresenter
             
             if ($owner && $owner->email) {
                 $this->template->success = true;
-                if ($verification->trials === $this->requests_limit) {
+                if ($verification->trials === $this->context->parameters['mailing']['requests']['limit']) {
                     $this->template->trials_limit_reached = true;
                 }
             }  
@@ -118,7 +116,7 @@ final class HomepagePresenter extends BasePresenter
         $renderer->wrappers['label']['container'] = null;
         $renderer->wrappers['control']['container'] = 'div';
 
-        if ($verification->trials < $this->requests_limit) {
+        if ($verification->trials < $this->context->parameters['mailing']['requests']['limit']) {
             $form->addSubmit('verify_ownership', 'Verify The Owner');
         }
         $form->onSubmit[] = [$this, 'verifyOwnership'];
@@ -137,13 +135,14 @@ final class HomepagePresenter extends BasePresenter
         try {
             // send email
             $template = $this->createTemplate();
-            $template->setFile(__DIR__ . '/templates/Emails/email.latte');
+            $template->setFile(__DIR__ . '/templates/Emails/secret-code.latte');
             $hash = new HashManager;
             $template->hash = $hash->tokenize($hash->encode($owner->email));
+            $template->serial = $verification->serial_number;
 
             $message = new Message;
-            $message->setSubject('Yakobium Light Object - Secret Hash')
-                    ->setFrom('robot@yakobium.com')
+            $message->setSubject('Yakobium Light Object')
+                    ->setFrom($this->context->parameters['mailing']['from'])
                     ->addTo($owner->email)
                     ->setHtmlBody($template);
 
@@ -151,7 +150,7 @@ final class HomepagePresenter extends BasePresenter
 
             !isset($verification->trials) ? $verification->trials = 0 : $verification->trials++;
 
-            if ($verification->trials === $this->requests_limit) {
+            if ($verification->trials === $this->context->parameters['mailing']['requests']['limit']) {
                 $verification->trials_timestamp = new DateTime;    
             }
 

@@ -1,16 +1,9 @@
 {
-	"name": "Yakobium Verification Tool",
-	"description": "Yakobium verification tool for light objects / sculptures owners.",
-	"version": "0.4.0",
-	"authors": [{
-		"name": "Lukas Konarik",
-		"email": "lukas@konarik.info",
-		"homepage": "http://www.lukaskonarik.com",
-		"role": "Developer"
-	}],
+	"name": "nette/web-project",
+	"description": "Nette: Standard Web Project",
 	"keywords": ["nette"],
 	"type": "project",
-	"license": ["MIT"],
+	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"require": {
 		"php": ">= 5.6",
 		"nette/application": "^2.4",
